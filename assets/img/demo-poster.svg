@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Постер-заглушка для демо-відео: замінити на кадр з oko-demo.mp4 -->
+  <rect width="1280" height="720" fill="#07091C"/>
+  <rect x="2" y="2" width="1276" height="716" fill="none" stroke="#2A3468" stroke-width="4"/>
+  <path d="M320 470 Q360 420 400 470 T480 470 T560 470 T640 470 T720 470 T800 470 T880 470 T960 470"
+        fill="none" stroke="#E8A33D" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+  <text x="640" y="330" fill="#CADCFC" font-family="Arial, sans-serif" font-size="52" text-anchor="middle">Демо в записі</text>
+  <text x="640" y="390" fill="#CADCFC" font-family="Arial, sans-serif" font-size="28" text-anchor="middle">відео з'явиться тут найближчим часом</text>
+</svg>
