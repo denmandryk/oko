@@ -341,12 +341,12 @@
           if (res.ok) {
             showStatus('success');
             form.reset();
-          } else {
-            showStatus('error');
+            return;
           }
+          // CAPTCHA увімкнена: fetch/AJAX блокується — звичайний POST відкриває сторінку Formspree
+          form.submit();
         })
         .catch(() => {
-          // фолбек: звичайний POST з перезавантаженням сторінки
           form.submit();
         })
         .finally(() => {
