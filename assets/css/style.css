@@ -255,9 +255,7 @@ a:hover { text-decoration-thickness: 2px; }
    статичний декор у палітрі (золото + ice), контент завжди поверх */
 .waves-bg { position: relative; overflow: hidden; }
 .waves-bg::before,
-.waves-bg::after,
-.demo-stub::before,
-.demo-stub::after {
+.waves-bg::after {
   content: '';
   position: absolute;
   width: min(94vw, 1080px);
@@ -268,15 +266,13 @@ a:hover { text-decoration-thickness: 2px; }
   -webkit-mask-image: radial-gradient(closest-side at 50% 50%, #000 40%, transparent 72%);
   mask-image: radial-gradient(closest-side at 50% 50%, #000 40%, transparent 72%);
 }
-.waves-bg::before, .demo-stub::before { top: -10%; right: -140px; }
-.waves-bg::after, .demo-stub::after { bottom: -14%; left: -160px; transform: scaleX(-1); opacity: .65; }
+.waves-bg::before { top: -10%; right: -140px; }
+.waves-bg::after { bottom: -14%; left: -160px; transform: scaleX(-1); opacity: .65; }
 .waves-bg .container { position: relative; z-index: 1; }
 /* підвищений контраст — фоновий декор геть */
 @media (prefers-contrast: more) {
   .waves-bg::before,
-  .waves-bg::after,
-  .demo-stub::before,
-  .demo-stub::after { display: none; }
+  .waves-bg::after { display: none; }
 }
 
 /* ---------- 5. Хедер (§5) ---------- */
@@ -452,6 +448,13 @@ a:hover { text-decoration-thickness: 2px; }
   background: var(--gold);
   flex: none;
 }
+.hero-player.is-playing .player-dot {
+  animation: dot-pulse 1.4s ease-in-out infinite;
+}
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(232, 163, 61, .45); }
+  50%      { opacity: .85; transform: scale(1.12); box-shadow: 0 0 0 6px rgba(232, 163, 61, 0); }
+}
 .player-title {
   margin: 0;
   font-size: .92rem;
@@ -464,56 +467,76 @@ a:hover { text-decoration-thickness: 2px; }
 /* «екран» — чорний */
 .player-screen {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   min-height: clamp(300px, 44vw, 400px);
-  padding: 36px 24px 32px;
+  height: clamp(300px, 44vw, 400px);
   background: var(--screen-black);
+  overflow: hidden;
+}
+/* шум екрана — завжди видимий, «живий» темний фон */
+.player-screen::before,
+.player-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: repeat;
+}
+.player-screen::before {
+  opacity: .14;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+.player-screen::after {
+  opacity: .07;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .player-screen::before {
+    animation: screen-grain 6s steps(4) infinite;
+  }
+  .player-screen::after {
+    animation: screen-grain-alt 7s steps(3) infinite reverse;
+  }
+}
+@keyframes screen-grain {
+  0%, 100% { transform: translate(0, 0); opacity: .13; }
+  25%      { transform: translate(-1.5%, 1%); opacity: .15; }
+  50%      { transform: translate(1%, -1%); opacity: .14; }
+  75%      { transform: translate(-1%, -1.5%); opacity: .16; }
+}
+@keyframes screen-grain-alt {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(1.5%, 0.5%); }
+  66%      { transform: translate(-0.5%, 1.5%); }
 }
 
-/* сцена: підказка і репліки в одній клітинці — без стрибків макета */
+/* сцена на весь чорний екран — підказка по центру зони */
 .screen-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 100%;
-  flex: 1;
-  align-self: stretch;
+  height: 100%;
+  padding: 24px;
 }
-.screen-hint,
-.screen-captions { grid-area: 1 / 1; }
-
 .screen-hint {
-  margin: 0;
+  margin: -16px 0 0;
   color: var(--ice);
   font-size: 1.05rem;
   text-align: center;
   max-width: 46ch;
   transition: opacity .3s, visibility .3s;
 }
-.hero-player.is-on .screen-hint { opacity: 0; visibility: hidden; }
 
-.screen-captions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  max-width: 560px;
-}
-.cap {
-  margin: 0;
-  color: var(--white);
-  text-align: center;
-  font-size: 1.02rem;
-  line-height: 1.5;
-}
-.cap-ask { color: var(--gold-300); } /* золото текстом на темному — 7.5:1, AAA */
-
-/* хвиля і кнопка — внизу екрана, підказка по центру всієї чорної зони */
+/* хвиля і кнопка — внизу екрана */
 .screen-wave {
   position: absolute;
+  z-index: 2;
   bottom: 88px;
   left: 50%;
   transform: translateX(-50%);
@@ -542,7 +565,6 @@ a:hover { text-decoration-thickness: 2px; }
   .hero-player.is-on .oko-wave .bar {
     animation: bar-dance var(--dur, 1.1s) ease-in-out var(--delay, 0s) infinite;
   }
-  .cap:not([hidden]) { animation: cap-in .25s ease-out both; }
 }
 @keyframes wave-idle {
   0%, 100% { opacity: .55; }
@@ -552,23 +574,32 @@ a:hover { text-decoration-thickness: 2px; }
   0%, 100% { transform: scaleY(1.6); }
   50%      { transform: scaleY(var(--amp, 8)); }
 }
-@keyframes cap-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: none; }
-}
 /* reduced-motion: хвиля статична, але «увімкнена» — різна висота барів */
 @media (prefers-reduced-motion: reduce) {
   .hero-player.is-on .oko-wave .bar { transform: scaleY(var(--static, 4)); }
+  .hero-player.is-playing .player-dot { animation: none; }
 }
 
 .btn-oko {
   position: absolute;
+  z-index: 2;
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 1.06rem;
   padding: 14px 34px;
 }
+.oko-btn-icon {
+  display: none;
+  flex: none;
+  align-items: center;
+}
+.oko-btn-icon.is-shown { display: inline-flex; }
+.oko-btn-icon svg { display: block; }
+.btn-oko:hover { transform: translateX(-50%) translateY(-1px); }
 .btn-oko:active { transform: translateX(-50%) translateY(1px); }
 .hero-player.is-on .btn-oko {
   background: transparent;
@@ -633,11 +664,23 @@ a:hover { text-decoration-thickness: 2px; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  width: 100%;
-  max-width: 520px;
+  width: max-content;
+  max-width: 100%;
   margin-inline: auto;
 }
-.hero-cta .btn { width: 100%; }
+.hero-cta .btn { width: 100%; white-space: nowrap; }
+
+/* підказка під плеєром */
+.hero-player-try {
+  margin: 16px auto 0;
+  max-width: 42ch;
+  font-size: .88rem;
+  color: rgba(202, 220, 252, .72);
+  text-align: center;
+  line-height: 1.5;
+  transition: opacity .25s;
+}
+.hero-player.is-on + .hero-player-try { opacity: 0; }
 
 /* ---------- 7. Секції ---------- */
 
@@ -824,18 +867,6 @@ a:hover { text-decoration-thickness: 2px; }
   text-underline-offset: 3px;
 }
 .demo-credit a:hover { text-decoration-thickness: 2px; }
-.demo-more { display: flex; justify-content: center; }
-.badge-soon {
-  font-size: .75rem;
-  font-weight: 500;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--gold-300);
-  border: 1px solid rgba(232, 163, 61, .65);
-  border-radius: 999px;
-  padding: 3px 12px;
-  margin-left: 4px;
-}
 
 /* 6.5 Для кого: подвійна аудиторія */
 .audience-grid {
@@ -1102,27 +1133,6 @@ a:hover { text-decoration-thickness: 2px; }
 .footer-contacts a { color: var(--white); font-size: .95rem; }
 .footer-meta { font-size: .95rem; color: var(--ice); margin: 0; }
 
-/* заглушка /demo */
-.demo-stub {
-  min-height: 100vh;
-  margin: 0;
-  background: var(--navy-900);
-  color: var(--white);
-  --focus-ring: var(--gold);
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 24px;
-}
-.demo-stub h1 { color: var(--white); font-size: 2rem; }
-.demo-stub p { color: var(--ice); }
-.demo-stub a { color: var(--gold-300); }
-/* хвилі на заглушці: fixed замість absolute — overflow:hidden на body
-   заблокував би скрол; вьюпорт обрізає їх сам */
-.demo-stub::before,
-.demo-stub::after { position: fixed; }
-.demo-stub main { position: relative; z-index: 1; }
-
 /* ---------- 9. Адаптив ---------- */
 
 @media (max-width: 920px) {
@@ -1138,7 +1148,7 @@ a:hover { text-decoration-thickness: 2px; }
 @media (max-width: 560px) {
   h2 { font-size: 1.6rem; }
   .hero-copy { margin-bottom: 44px; }
-  .player-screen { padding: 28px 16px 24px; }
+  .player-screen { height: clamp(280px, 70vw, 360px); min-height: clamp(280px, 70vw, 360px); }
   .screen-hint { font-size: .98rem; }
   .footer-bottom { flex-direction: column; } /* на мобільному — стек по центру */
 }
@@ -1153,10 +1163,13 @@ a:hover { text-decoration-thickness: 2px; }
     transition-duration: .01ms !important;
   }
   .btn:active { transform: none; }
+  .btn-oko:hover,
+  .btn-oko:active { transform: translateX(-50%); }
 }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
   .btn:hover { transform: translateY(-1px); }
+  .btn-oko:hover { transform: translateX(-50%); }
 }
 
 /* підвищений контраст: піднімаємо muted до ink */

@@ -10,9 +10,22 @@
   function updateOkoLabel() {
     const okoBtn = document.querySelector('[data-oko-btn]');
     const okoLabel = document.querySelector('[data-oko-label]');
+    const playIcon = document.querySelector('[data-oko-icon-play]');
+    const pauseIcon = document.querySelector('[data-oko-icon-pause]');
+    const audio = document.querySelector('[data-hero-audio]');
     if (!okoBtn || !okoLabel) return;
-    const active = okoBtn.getAttribute('aria-pressed') === 'true';
-    okoLabel.textContent = t(active ? 'oko_active' : 'oko_on');
+
+    let key = 'oko_on';
+    if (audio?.src && !audio.ended) {
+      if (!audio.paused) key = 'oko_pause';
+      else if (audio.currentTime > 0) key = 'oko_resume';
+    }
+    okoLabel.textContent = t(key);
+
+    const showPlay = key === 'oko_resume';
+    const showPause = key === 'oko_pause';
+    if (playIcon) playIcon.classList.toggle('is-shown', showPlay);
+    if (pauseIcon) pauseIcon.classList.toggle('is-shown', showPause);
   }
 
   document.addEventListener('oko:langchange', updateOkoLabel);
@@ -81,30 +94,154 @@
 
   const player = document.querySelector('[data-player]');
   const okoBtn = document.querySelector('[data-oko-btn]');
-  const captions = Array.from(document.querySelectorAll('[data-caption]'));
-  const CAPTION_INTERVAL = 2500; // ~2.5с між репліками, як у брифі
-  let capTimers = [];
+  const heroAudio = document.querySelector('[data-hero-audio]');
+  const timelineFill = document.querySelector('[data-timeline-fill]');
+  const playerTime = document.querySelector('[data-player-time]');
 
-  if (player && okoBtn && captions.length) {
-    okoBtn.addEventListener('click', () => {
-      // повторний клік — програємо сценарій спочатку
-      capTimers.forEach(clearTimeout);
-      capTimers = [];
-      captions.forEach((line) => { line.hidden = true; });
+  const HERO_AUDIO = {
+    en: 'assets/audio/newton_eng.mp3',
+    uk: 'assets/audio/newton_ukr.mp3',
+  };
+  const LECTURE_TOTAL_SEC = 36 * 60 + 40;
+  const LECTURE_START_SEC = 12 * 60 + 26;
+  const START_PERCENT = (LECTURE_START_SEC / LECTURE_TOTAL_SEC) * 100;
 
-      player.classList.add('is-on');
-      okoBtn.setAttribute('aria-pressed', 'true');
+  let progressAnim = null;
+  let demoDurationSec = 0;
+
+  function getLang() {
+    return window.OKO_I18N?.getLang() || 'en';
+  }
+
+  function heroAudioSrc() {
+    return HERO_AUDIO[getLang()] || HERO_AUDIO.en;
+  }
+
+  function formatPlayerTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+
+  function setTimeline(percent, elapsedSec) {
+    if (timelineFill) timelineFill.style.width = `${percent}%`;
+    if (playerTime) {
+      playerTime.textContent = `${formatPlayerTime(elapsedSec)} / ${formatPlayerTime(LECTURE_TOTAL_SEC)}`;
+    }
+  }
+
+  function stopProgressAnim() {
+    if (progressAnim) {
+      cancelAnimationFrame(progressAnim);
+      progressAnim = null;
+    }
+  }
+
+  function setHeroActive(active) {
+    if (player) {
+      player.classList.toggle('is-on', active);
+      if (!active) player.classList.remove('is-playing');
+    }
+    if (okoBtn) okoBtn.setAttribute('aria-pressed', String(active));
+    updateOkoLabel();
+  }
+
+  function setHeroPlaying(playing) {
+    if (player) player.classList.toggle('is-playing', playing);
+  }
+
+  function resetHeroDemo() {
+    stopProgressAnim();
+    if (heroAudio) {
+      heroAudio.pause();
+      heroAudio.currentTime = 0;
+      heroAudio.removeAttribute('src');
+      heroAudio.load();
+    }
+    demoDurationSec = 0;
+    setHeroActive(false);
+    setTimeline(START_PERCENT, LECTURE_START_SEC);
+  }
+
+  function startTimelineSync() {
+    if (!heroAudio || !demoDurationSec) return;
+    const endPercent = ((LECTURE_START_SEC + demoDurationSec) / LECTURE_TOTAL_SEC) * 100;
+
+    function tick() {
+      if (!heroAudio || heroAudio.paused) return;
+      const elapsed = Math.min(heroAudio.currentTime, demoDurationSec);
+      const percent = START_PERCENT + (endPercent - START_PERCENT) * (elapsed / demoDurationSec);
+      setTimeline(percent, LECTURE_START_SEC + elapsed);
+      if (!heroAudio.ended) progressAnim = requestAnimationFrame(tick);
+    }
+
+    stopProgressAnim();
+    progressAnim = requestAnimationFrame(tick);
+  }
+
+  function playHeroDemo() {
+    if (!player || !okoBtn || !heroAudio) return;
+
+    stopProgressAnim();
+    heroAudio.pause();
+    heroAudio.src = heroAudioSrc();
+    setHeroActive(true);
+
+    let started = false;
+    const beginPlayback = () => {
+      if (started) return;
+      started = true;
+      demoDurationSec = heroAudio.duration || 30;
+      startTimelineSync();
+      heroAudio.play().then(updateOkoLabel).catch(() => {});
+    };
+
+    heroAudio.addEventListener('ended', () => resetHeroDemo(), { once: true });
+
+    heroAudio.addEventListener('loadedmetadata', beginPlayback, { once: true });
+    heroAudio.load();
+  }
+
+  function pauseHeroDemo() {
+    if (!heroAudio) return;
+    heroAudio.pause();
+    stopProgressAnim();
+    updateOkoLabel();
+  }
+
+  function resumeHeroDemo() {
+    if (!heroAudio || !heroAudio.src) return;
+    heroAudio.play().catch(() => {});
+  }
+
+  function handleOkoClick() {
+    if (!heroAudio?.src || heroAudio.ended) {
+      playHeroDemo();
+      return;
+    }
+    if (!heroAudio.paused) {
+      pauseHeroDemo();
+      return;
+    }
+    if (heroAudio.currentTime > 0) {
+      resumeHeroDemo();
+    }
+  }
+
+  if (player && okoBtn && heroAudio) {
+    setTimeline(START_PERCENT, LECTURE_START_SEC);
+    updateOkoLabel();
+    okoBtn.addEventListener('click', handleOkoClick);
+    heroAudio.addEventListener('pause', () => {
+      setHeroPlaying(false);
       updateOkoLabel();
-
-      if (reduceMotion.matches) {
-        // reduced-motion: без таймерів — усі репліки одразу, хвиля статична (CSS)
-        captions.forEach((line) => { line.hidden = false; });
-        return;
-      }
-      captions.forEach((line, i) => {
-        capTimers.push(setTimeout(() => { line.hidden = false; }, 500 + i * CAPTION_INTERVAL));
-      });
     });
+    heroAudio.addEventListener('play', () => {
+      setHeroPlaying(true);
+      updateOkoLabel();
+      startTimelineSync();
+    });
+    document.addEventListener('oko:langchange', resetHeroDemo);
   }
 
   /* ---------- CTA → форма: роль із хеша (#beta / #pilot) ---------- */

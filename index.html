@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <noscript>
     <style>
-      .screen-captions p[hidden] { display: block; }
       .screen-hint, .btn-oko { display: none; }
       @media (max-width: 860px) {
         .site-nav { display: flex !important; position: static !important; flex-direction: row !important; flex-wrap: wrap; }
@@ -82,6 +81,7 @@
         </div>
 
         <div class="hero-player" data-player>
+          <audio class="visually-hidden" data-hero-audio preload="metadata" aria-hidden="true"></audio>
           <div class="player-top">
             <span class="player-dot" aria-hidden="true"></span>
             <p class="player-title" data-i18n="player_title">Lecture 12. Newton's second law</p>
@@ -90,11 +90,6 @@
           <div class="player-screen">
             <div class="screen-stage">
               <p class="screen-hint" data-screen-hint data-i18n="player_hint">This is what a lecture looks like for a blind student</p>
-              <div class="screen-captions" data-captions aria-live="polite">
-                <p class="cap" data-caption data-i18n="cap_1" hidden>«On the board it says: F equals m times a».</p>
-                <p class="cap" data-caption data-i18n="cap_2" hidden>«The instructor draws a graph — a straight line from the origin».</p>
-                <p class="cap cap-ask" data-caption data-i18n="cap_3" hidden>«Want more detail on this formula? Just ask».</p>
-              </div>
             </div>
 
             <div class="screen-wave">
@@ -110,15 +105,27 @@
             </div>
 
             <button class="btn btn-gold btn-oko" type="button" data-oko-btn aria-pressed="false">
+              <span class="oko-btn-icon" data-oko-icon-play aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" focusable="false">
+                  <path d="M3.5 2.2v9.6L11.8 7 3.5 2.2z" fill="currentColor"/>
+                </svg>
+              </span>
+              <span class="oko-btn-icon" data-oko-icon-pause aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" focusable="false">
+                  <path d="M3.2 2.5h2.4v9H3.2zm5.2 0h2.4v9H8.4z" fill="currentColor"/>
+                </svg>
+              </span>
               <span data-oko-label>Turn on OKO</span>
             </button>
           </div>
 
           <div class="player-bottom" aria-hidden="true">
-            <div class="player-timeline"><span class="timeline-fill" style="width:34%"></span></div>
-            <span class="player-time">12:26 / 36:40</span>
+            <div class="player-timeline"><span class="timeline-fill" data-timeline-fill style="width:34%"></span></div>
+            <span class="player-time" data-player-time>12:26 / 36:40</span>
           </div>
         </div>
+
+        <p class="hero-player-try" data-i18n="player_try">Tap the button to hear how OKO narrates the lecture</p>
 
       </div>
     </section>
@@ -194,7 +201,7 @@
         <div class="demo-grid">
           <figure class="demo-figure">
             <figcaption data-i18n="demo_without">Without OKO</figcaption>
-            <video controls preload="metadata" poster="assets/img/demo-poster.svg">
+            <video controls preload="metadata">
               <source src="assets/video/oko-demo-original.mp4" type="video/mp4">
               <span data-i18n="demo_video_fallback">Your browser doesn't support video playback.</span>
             </video>
@@ -202,7 +209,7 @@
 
           <figure class="demo-figure demo-figure--oko">
             <figcaption data-i18n="demo_with">With OKO</figcaption>
-            <video controls preload="metadata" poster="assets/img/demo-poster.svg">
+            <video controls preload="metadata">
               <source src="assets/video/oko-demo.mp4" type="video/mp4">
               <span data-i18n="demo_video_fallback">Your browser doesn't support video playback.</span>
             </video>
@@ -210,13 +217,6 @@
         </div>
 
         <p class="demo-credit" data-i18n-html="demo_credit">Excerpt from <a href="https://www.youtube.com/watch?v=ZK3O402wf1c&amp;t=710s">Lec 1 | MIT 18.06 Linear Algebra, Spring 2005</a> (Gilbert Strang, <a href="https://ocw.mit.edu/">MIT OpenCourseWare</a>). Used for OKO demonstration only. <a href="https://ocw.mit.edu/terms/">CC BY-NC-SA 4.0</a>.</p>
-
-        <div class="demo-more">
-          <a class="btn btn-ghost" href="demo/">
-            <span data-i18n="demo_proto">Try the interactive prototype</span> <span aria-hidden="true">→</span>
-            <span class="badge-soon" data-i18n="demo_soon">coming soon</span>
-          </a>
-        </div>
       </div>
     </section>
 
@@ -378,7 +378,8 @@
           <p class="section-sub" data-i18n="join_sub">Beta for students is free; platform pilots start fall 2026.</p>
         </div>
 
-        <form class="lead-form form-card" data-lead-form action="#" method="POST">
+        <form class="lead-form form-card" data-lead-form action="https://formspree.io/f/xdaqnerg" method="POST">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" hidden aria-hidden="true">
           <div class="field">
             <label for="lead-name"><span data-i18n="form_name">Name</span> <span aria-hidden="true">*</span></label>
             <input id="lead-name" name="name" type="text" autocomplete="name" required aria-describedby="err-lead-name">
