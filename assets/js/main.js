@@ -1,10 +1,21 @@
 /* OKO — лендинг. Vanilla JS, без бібліотек.
-   Модулі: хедер (скрол + мобільне меню з фокус-трапом),
+   Модулі: i18n-хелпери, хедер (скрол + мобільне меню з фокус-трапом),
    хіро «Увімкнути OKO», предвибір ролі з хеша, форма лідів. */
 (() => {
   'use strict';
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const t = (key) => (window.OKO_I18N ? window.OKO_I18N.t(key) : key);
+
+  function updateOkoLabel() {
+    const okoBtn = document.querySelector('[data-oko-btn]');
+    const okoLabel = document.querySelector('[data-oko-label]');
+    if (!okoBtn || !okoLabel) return;
+    const active = okoBtn.getAttribute('aria-pressed') === 'true';
+    okoLabel.textContent = t(active ? 'oko_active' : 'oko_on');
+  }
+
+  document.addEventListener('oko:langchange', updateOkoLabel);
 
   /* ---------- Хедер: тонкий бордер при скролі ---------- */
 
@@ -70,7 +81,6 @@
 
   const player = document.querySelector('[data-player]');
   const okoBtn = document.querySelector('[data-oko-btn]');
-  const okoLabel = document.querySelector('[data-oko-label]');
   const captions = Array.from(document.querySelectorAll('[data-caption]'));
   const CAPTION_INTERVAL = 2500; // ~2.5с між репліками, як у брифі
   let capTimers = [];
@@ -84,7 +94,7 @@
 
       player.classList.add('is-on');
       okoBtn.setAttribute('aria-pressed', 'true');
-      if (okoLabel) okoLabel.textContent = 'OKO описує лекцію';
+      updateOkoLabel();
 
       if (reduceMotion.matches) {
         // reduced-motion: без таймерів — усі репліки одразу, хвиля статична (CSS)
@@ -120,20 +130,20 @@
     status.classList.toggle('is-success', kind === 'success');
     status.classList.toggle('is-error', kind === 'error');
     status.textContent = kind === 'success'
-      ? 'Дякуємо! Відповімо протягом 1–2 днів.'
-      : 'Щось пішло не так. Спробуй ще раз або напиши нам на email із футера.';
+      ? t('form_success')
+      : t('form_error');
   }
 
   function errorTextFor(field) {
     if (field.validity.valueMissing) {
       return field.name === 'email'
-        ? 'Впиши email — без нього не зможемо відповісти.'
-        : 'Це поле обов’язкове.';
+        ? t('err_email_required')
+        : t('err_required');
     }
     if (field.validity.typeMismatch && field.type === 'email') {
-      return 'Перевір формат email — наприклад, name@university.edu.';
+      return t('err_email_format');
     }
-    return 'Перевір це поле, будь ласка.';
+    return t('err_generic');
   }
 
   function showFieldError(field) {

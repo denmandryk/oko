@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OKO — озвучує те, що на екрані</title>
-  <meta name="description" content="Незрячим і слабозорим студентам OKO голосом описує формули, схеми й усе, що показують у відео, — і відповідає на запитання просто під час лекції.">
+  <title>OKO — narrates what's on screen</title>
+  <meta name="description" content="For blind and low-vision students, OKO describes formulas, diagrams, and everything shown in video — and answers questions right during the lecture.">
   <meta name="theme-color" content="#1E2761">
-  <meta property="og:title" content="OKO — озвучує те, що на екрані">
-  <meta property="og:description" content="Незрячим і слабозорим студентам OKO голосом описує формули, схеми й усе, що показують у відео, — і відповідає на запитання просто під час лекції.">
-  <meta property="og:locale" content="uk_UA">
+  <meta property="og:title" content="OKO — narrates what's on screen">
+  <meta property="og:description" content="For blind and low-vision students, OKO describes formulas, diagrams, and everything shown in video — and answers questions right during the lecture.">
+  <meta property="og:locale" content="en_US">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E2761'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23E8A33D' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23E8A33D'/%3E%3C/svg%3E">
   <link rel="preload" href="assets/fonts/e-ukraine/e-UkraineHead-Bold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/e-ukraine/e-Ukraine-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <noscript>
     <style>
-      /* без JS: показуємо репліки OKO одразу і навігацію на мобільному */
       .screen-captions p[hidden] { display: block; }
       .screen-hint, .btn-oko { display: none; }
       @media (max-width: 860px) {
@@ -29,12 +28,12 @@
 </head>
 <body id="top">
 
-  <a class="skip-link" href="#main">Перейти до змісту</a>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
 
   <!-- ===================== Хедер (§5) ===================== -->
   <header class="site-header" data-header>
     <div class="container header-inner">
-      <a class="logo" href="#top" aria-label="OKO — на початок сторінки">
+      <a class="logo" href="#top" data-i18n-aria-label="logo_aria" aria-label="OKO — back to top">
         <svg class="logo-eye" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
           <circle cx="14" cy="14" r="12" fill="none" stroke="currentColor" stroke-width="2.5"/>
           <circle cx="14" cy="14" r="4.5" fill="#B87817"/>
@@ -42,53 +41,59 @@
         <span class="logo-text">OKO</span>
       </a>
 
-      <nav class="site-nav" id="site-nav" aria-label="Основна навігація">
+      <nav class="site-nav" id="site-nav" data-i18n-aria-label="nav_aria" aria-label="Main navigation">
         <ul>
-          <li><a href="#how">Як працює</a></li>
-          <li><a href="#demo">Демо</a></li>
-          <li><a href="#platforms">Платформам</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#how" data-i18n="nav_how">How it works</a></li>
+          <li><a href="#demo" data-i18n="nav_demo">Demo</a></li>
+          <li><a href="#platforms" data-i18n="nav_platforms">For platforms</a></li>
+          <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
         </ul>
-        <a class="btn btn-navy" href="#beta">Хочу в бету</a>
+
+        <div class="lang-switch" role="group" data-i18n-aria-label="lang_aria" aria-label="Language">
+          <button type="button" class="lang-switch-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" class="lang-switch-btn" data-lang="uk" aria-pressed="false">UA</button>
+        </div>
+
+        <a class="btn btn-navy" href="#beta" data-i18n="nav_beta">Join the beta</a>
       </nav>
 
       <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
         <span class="nav-toggle-line" aria-hidden="true"></span>
         <span class="nav-toggle-line" aria-hidden="true"></span>
         <span class="nav-toggle-line" aria-hidden="true"></span>
-        <span class="visually-hidden">Меню</span>
+        <span class="visually-hidden" data-i18n="nav_menu">Menu</span>
       </button>
     </div>
   </header>
 
   <main id="main" tabindex="-1">
 
-    <!-- ===================== 6.1 Хіро: «Екран, якого не видно» (§4) ===================== -->
+    <!-- ===================== 6.1 Хіро ===================== -->
     <section class="hero waves-bg" aria-labelledby="hero-title">
       <div class="container">
 
         <div class="hero-copy">
-          <h1 id="hero-title">OKO озвучує те,<br>що на екрані</h1>
-          <p class="hero-sub">Незрячим і слабозорим студентам OKO голосом описує формули, схеми й усе, що показують у відео, — і відповідає на запитання просто під час лекції.</p>
+          <h1 id="hero-title" data-i18n-html="hero_title">OKO narrates what's<br>on screen</h1>
+          <p class="hero-sub" data-i18n="hero_sub">For blind and low-vision students, OKO describes formulas, diagrams, and everything shown in video — and answers questions right during the lecture.</p>
           <div class="hero-cta">
-            <a class="btn btn-gold" href="#beta">Хочу в бету</a>
-            <a class="btn btn-ghost" href="#pilot">Запит на пілот <span aria-hidden="true">→</span></a>
+            <a class="btn btn-gold" href="#beta" data-i18n="hero_beta">Join the beta</a>
+            <a class="btn btn-ghost" href="#pilot"><span data-i18n="hero_pilot">Request a pilot</span> <span aria-hidden="true">→</span></a>
           </div>
         </div>
 
         <div class="hero-player" data-player>
           <div class="player-top">
             <span class="player-dot" aria-hidden="true"></span>
-            <p class="player-title">Лекція 12. Другий закон Ньютона</p>
+            <p class="player-title" data-i18n="player_title">Lecture 12. Newton's second law</p>
           </div>
 
           <div class="player-screen">
             <div class="screen-stage">
-              <p class="screen-hint" data-screen-hint>Так виглядає лекція для незрячого студента</p>
+              <p class="screen-hint" data-screen-hint data-i18n="player_hint">This is what a lecture looks like for a blind student</p>
               <div class="screen-captions" data-captions aria-live="polite">
-                <p class="cap" data-caption hidden>«На дошці записано: F дорівнює m на a».</p>
-                <p class="cap" data-caption hidden>«Викладач малює графік — пряма з початку координат».</p>
-                <p class="cap cap-ask" data-caption hidden>«Хочеш детальніше про цю формулу? Просто спитай».</p>
+                <p class="cap" data-caption data-i18n="cap_1" hidden>«On the board it says: F equals m times a».</p>
+                <p class="cap" data-caption data-i18n="cap_2" hidden>«The instructor draws a graph — a straight line from the origin».</p>
+                <p class="cap cap-ask" data-caption data-i18n="cap_3" hidden>«Want more detail on this formula? Just ask».</p>
               </div>
             </div>
 
@@ -105,7 +110,7 @@
             </div>
 
             <button class="btn btn-gold btn-oko" type="button" data-oko-btn aria-pressed="false">
-              <span data-oko-label>Увімкнути OKO</span>
+              <span data-oko-label>Turn on OKO</span>
             </button>
           </div>
 
@@ -124,26 +129,25 @@
     <section class="section section-pain" id="problem" aria-labelledby="pain-title">
       <div class="container pain-grid">
         <div class="pain-copy">
-          <span class="eyebrow">Проблема</span>
-          <h2 id="pain-title">Пів лекції — це те, що видно на екрані</h2>
-          <p>Викладач пише формулу на дошці й каже «ось тут» — а на слух незрозуміло нічого. Скрінрідер прочитає кнопки платформи, але не те, що у відео. Тож ті пів лекції просто зникають.</p>
-          <ul class="chips" aria-label="Що лишається за кадром без опису">
-            <li class="chip">формула на дошці</li>
-            <li class="chip">демонстрація на екрані</li>
-            <li class="chip">графіки і слайди</li>
+          <span class="eyebrow" data-i18n="pain_eyebrow">Problem</span>
+          <h2 id="pain-title" data-i18n="pain_title">Half the lecture is what's visible on screen</h2>
+          <p data-i18n="pain_p">The instructor writes a formula on the board and says "right here" — but nothing makes sense by ear alone. A screen reader will read the platform buttons, not what's in the video. So half the lecture simply disappears.</p>
+          <ul class="chips" data-i18n-aria-label="pain_chips_aria" aria-label="What's left off-screen without description">
+            <li class="chip" data-i18n="chip_1">formula on the board</li>
+            <li class="chip" data-i18n="chip_2">on-screen demonstration</li>
+            <li class="chip" data-i18n="chip_3">graphs and slides</li>
           </ul>
         </div>
 
-        <!-- Цитата — драфт команди; замінити на реальну після discovery-інтерв'ю (§6.2 брифу) -->
         <figure class="pain-quote">
           <blockquote>
-            <p>Найгірше — коли викладач каже: «Як бачите на слайді…». Я не бачу. Прошу одногрупників переказати — і проходжу лекцію вдвічі довше за всіх.</p>
+            <p data-i18n="quote_p">The worst part is when the instructor says: "As you can see on the slide…" I can't see. I ask classmates to explain — and get through the lecture twice as slowly as everyone else.</p>
           </blockquote>
           <figcaption class="quote-author">
             <span class="quote-avatar" aria-hidden="true">А</span>
             <span>
-              <span class="quote-name">Андрій М.</span>
-              <span class="quote-role">студент</span>
+              <span class="quote-name" data-i18n="quote_name">Andriy M.</span>
+              <span class="quote-role" data-i18n="quote_role">student</span>
             </span>
           </figcaption>
         </figure>
@@ -156,24 +160,24 @@
     <section class="section tint section-how" id="how" aria-labelledby="how-title">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Як працює</span>
-          <h2 id="how-title">Дивиться, описує, відповідає</h2>
+          <span class="eyebrow" data-i18n="how_eyebrow">How it works</span>
+          <h2 id="how-title" data-i18n="how_title">Watches, describes, answers</h2>
         </div>
         <ol class="steps">
           <li class="step-card">
             <span class="step-num" aria-hidden="true">01</span>
-            <h3>Дивиться разом</h3>
-            <p>OKO бачить кадр так само, як твій зрячий одногрупник.</p>
+            <h3 data-i18n="step_1_title">Watches with you</h3>
+            <p data-i18n="step_1_p">OKO sees the frame just like your sighted classmate does.</p>
           </li>
           <li class="step-card">
             <span class="step-num" aria-hidden="true">02</span>
-            <h3>Описує в паузах</h3>
-            <p>Формули, графіки й дії — голосом, поки викладач мовчить.</p>
+            <h3 data-i18n="step_2_title">Describes in the pauses</h3>
+            <p data-i18n="step_2_p">Formulas, graphs, and actions — spoken aloud while the instructor is silent.</p>
           </li>
           <li class="step-card">
             <span class="step-num" aria-hidden="true">03</span>
-            <h3>Відповідає на запитання</h3>
-            <p>Спитай: «Що на графіку?», «Повтори формулу» — і OKO відповість просто під час лекції.</p>
+            <h3 data-i18n="step_3_title">Answers your questions</h3>
+            <p data-i18n="step_3_p">Ask: "What's on the graph?", "Repeat the formula" — and OKO responds right during the lecture.</p>
           </li>
         </ol>
       </div>
@@ -183,38 +187,34 @@
     <section class="section dark section-demo waves-bg" id="demo" aria-labelledby="demo-title">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Демо</span>
-          <h2 id="demo-title">Послухай різницю</h2>
+          <span class="eyebrow" data-i18n="demo_eyebrow">Demo</span>
+          <h2 id="demo-title" data-i18n="demo_title">Hear the difference</h2>
         </div>
 
         <div class="demo-grid">
           <figure class="demo-figure">
-            <figcaption>Без OKO</figcaption>
-            <!-- TODO: додати assets/video/oko-demo-original.mp4 (фрагмент лекції без опису) -->
+            <figcaption data-i18n="demo_without">Without OKO</figcaption>
             <video controls preload="metadata" poster="assets/img/demo-poster.svg">
               <source src="assets/video/oko-demo-original.mp4" type="video/mp4">
-              <!-- TODO: субтитри assets/video/oko-demo-original.vtt -->
-              <track kind="captions" src="assets/video/oko-demo-original.vtt" srclang="uk" label="Українська">
-              Ваш браузер не відтворює відео. Демо можна буде завантажити після запуску бети.
+              <span data-i18n="demo_video_fallback">Your browser doesn't support video playback.</span>
             </video>
           </figure>
 
           <figure class="demo-figure demo-figure--oko">
-            <figcaption>З OKO</figcaption>
-            <!-- TODO: додати assets/video/oko-demo.mp4 (той самий фрагмент з голосом OKO) -->
+            <figcaption data-i18n="demo_with">With OKO</figcaption>
             <video controls preload="metadata" poster="assets/img/demo-poster.svg">
               <source src="assets/video/oko-demo.mp4" type="video/mp4">
-              <!-- TODO: субтитри assets/video/oko-demo.vtt — ми сайт про доступність -->
-              <track kind="captions" src="assets/video/oko-demo.vtt" srclang="uk" label="Українська">
-              Ваш браузер не відтворює відео. Демо можна буде завантажити після запуску бети.
+              <span data-i18n="demo_video_fallback">Your browser doesn't support video playback.</span>
             </video>
           </figure>
         </div>
 
+        <p class="demo-credit" data-i18n-html="demo_credit">Excerpt from <a href="https://www.youtube.com/watch?v=ZK3O402wf1c&amp;t=710s">Lec 1 | MIT 18.06 Linear Algebra, Spring 2005</a> (Gilbert Strang, <a href="https://ocw.mit.edu/">MIT OpenCourseWare</a>). Used for OKO demonstration only. <a href="https://ocw.mit.edu/terms/">CC BY-NC-SA 4.0</a>.</p>
+
         <div class="demo-more">
           <a class="btn btn-ghost" href="demo/">
-            Спробувати інтерактивний прототип <span aria-hidden="true">→</span>
-            <span class="badge-soon">незабаром</span>
+            <span data-i18n="demo_proto">Try the interactive prototype</span> <span aria-hidden="true">→</span>
+            <span class="badge-soon" data-i18n="demo_soon">coming soon</span>
           </a>
         </div>
       </div>
@@ -226,8 +226,8 @@
     <section class="section section-audience" id="audience" aria-labelledby="audience-title">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Для кого</span>
-          <h2 id="audience-title">Студентам — бета.<br>Платформам — пілот</h2>
+          <span class="eyebrow" data-i18n="aud_eyebrow">Who it's for</span>
+          <h2 id="audience-title" data-i18n-html="aud_title">Students — beta.<br>Platforms — pilot</h2>
         </div>
 
         <div class="audience-grid">
@@ -238,15 +238,15 @@
                 <path d="M8.5 13.5v4.7c0 1.1 2.5 2.3 5.5 2.3s5.5-1.2 5.5-2.3v-4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M25.5 10.5v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
-              Студентам і викладачам
+              <span data-i18n="aud_students_title">Students and instructors</span>
             </h3>
-            <p>Запишись у бету — і слухай лекції повністю, а не половину. Безкоштовно й українською.</p>
-            <ul class="benefits" aria-label="Що дає бета">
-              <li>Голосовий опис формул, графіків і слайдів</li>
-              <li>Відповіді на запитання просто під час лекції</li>
-              <li>Твій відгук вирішує, яким OKO виросте</li>
+            <p data-i18n="aud_students_p">Join the beta — and hear lectures in full, not just half. Free and in Ukrainian.</p>
+            <ul class="benefits" data-i18n-aria-label="aud_students_aria" aria-label="What the beta offers">
+              <li data-i18n="aud_students_1">Voice descriptions of formulas, graphs, and slides</li>
+              <li data-i18n="aud_students_2">Answers to questions right during the lecture</li>
+              <li data-i18n="aud_students_3">Your feedback shapes how OKO grows</li>
             </ul>
-            <a class="btn btn-navy" href="#beta">Хочу в бету</a>
+            <a class="btn btn-navy" href="#beta" data-i18n="nav_beta">Join the beta</a>
           </article>
 
           <article class="aud-card aud-card--platforms" id="platforms">
@@ -256,15 +256,15 @@
                 <path d="M6 12v8M11.3 12v8M16.7 12v8M22 12v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 <path d="M4 23.5h20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
-              Платформам і вишам
+              <span data-i18n="aud_platforms_title">Platforms and universities</span>
             </h3>
-            <p>Ваша бібліотека відео стає доступною без місяців студійного опису.</p>
-            <ul class="benefits" aria-label="Стандарти доступності, які закриває OKO">
-              <li>WCAG 2.1 AA — вимога аудіодескрипції (1.2.5)</li>
-              <li>ADA Title II — дедлайни у США вже настали</li>
-              <li>EAA / EN 301 549 — діє в ЄС з червня 2025</li>
+            <p data-i18n="aud_platforms_p">Your video library becomes accessible without months of studio narration.</p>
+            <ul class="benefits" data-i18n-aria-label="aud_platforms_aria" aria-label="Accessibility standards OKO helps meet">
+              <li data-i18n="aud_platforms_1">WCAG 2.1 AA — audio description requirement (1.2.5)</li>
+              <li data-i18n="aud_platforms_2">ADA Title II — U.S. deadlines are already here</li>
+              <li data-i18n="aud_platforms_3">EAA / EN 301 549 — in effect in the EU since June 2025</li>
             </ul>
-            <a class="btn btn-gold" href="#pilot">Запит на пілот</a>
+            <a class="btn btn-gold" href="#pilot" data-i18n="hero_pilot">Request a pilot</a>
           </article>
         </div>
       </div>
@@ -273,22 +273,22 @@
     <!-- ===================== 6.6 Цифри ===================== -->
     <section class="section section-stats" aria-labelledby="stats-title">
       <div class="container">
-        <h2 id="stats-title" class="visually-hidden">Масштаб проблеми в цифрах</h2>
+        <h2 id="stats-title" class="visually-hidden" data-i18n="stats_title">Scale of the problem in numbers</h2>
         <ul class="stats-grid">
           <li class="stat">
             <span class="stat-value">75,3%</span>
-            <p class="stat-text">користувачів кажуть, що описаного контенту критично мало</p>
-            <p class="stat-src">Опитування American Council of the Blind</p>
+            <p class="stat-text" data-i18n="stat_1_text">of users say there is critically too little described content</p>
+            <p class="stat-src" data-i18n="stat_1_src">American Council of the Blind survey</p>
           </li>
           <li class="stat">
             <span class="stat-value">~7%</span>
-            <p class="stat-text">лише стільки запитів на аудіоопис виконує волонтерська модель</p>
-            <p class="stat-src">YouDescribe</p>
+            <p class="stat-text" data-i18n="stat_2_text">only this share of audio-description requests are fulfilled by volunteer models</p>
+            <p class="stat-src" data-i18n="stat_2_src">YouDescribe</p>
           </li>
           <li class="stat">
             <span class="stat-value">43 млн</span>
-            <p class="stat-text">незрячих людей у світі</p>
-            <p class="stat-src">ВООЗ / IAPB</p>
+            <p class="stat-text" data-i18n="stat_3_text">blind people worldwide</p>
+            <p class="stat-src" data-i18n="stat_3_src">WHO / IAPB</p>
           </li>
         </ul>
       </div>
@@ -300,66 +300,66 @@
     <section class="section section-faq" id="faq" aria-labelledby="faq-title">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">FAQ</span>
-          <h2 id="faq-title">Часті запитання</h2>
+          <span class="eyebrow" data-i18n="faq_eyebrow">FAQ</span>
+          <h2 id="faq-title" data-i18n="faq_title">Frequently asked questions</h2>
         </div>
 
         <div class="faq-list">
-          <h3 class="faq-group-title">Для студентів</h3>
+          <h3 class="faq-group-title" data-i18n="faq_students">For students</h3>
           <details class="faq-item" open>
-            <summary>Скільки коштує?</summary>
+            <summary data-i18n="faq_q_cost">How much does it cost?</summary>
             <div class="faq-body">
-              <p>Зараз бета — безкоштовно. Хочемо, щоб нею користувалися й підказували, що покращити.</p>
+              <p data-i18n="faq_a_cost">The beta is free for now. We want people to use it and tell us what to improve.</p>
             </div>
           </details>
           <details class="faq-item">
-            <summary>Коли можна спробувати?</summary>
+            <summary data-i18n="faq_q_when">When can I try it?</summary>
             <div class="faq-body">
-              <p>Запускаємо перші бети восени 2026. Залиш пошту — напишемо, щойно відкриємо доступ.</p>
+              <p data-i18n="faq_a_when">We're launching the first betas in fall 2026. Leave your email — we'll write as soon as access opens.</p>
             </div>
           </details>
           <details class="faq-item">
-            <summary>З якими відео працює OKO?</summary>
+            <summary data-i18n="faq_q_video">What videos does OKO work with?</summary>
             <div class="faq-body">
-              <p>З лекціями, туторіалами, записами вебінарів — будь-яким навчальним відео, де важливо бачити екран.</p>
+              <p data-i18n="faq_a_video">Lectures, tutorials, webinar recordings — any educational video where seeing the screen matters.</p>
             </div>
           </details>
           <details class="faq-item">
-            <summary>Це працює українською?</summary>
+            <summary data-i18n="faq_q_uk">Does it work in Ukrainian?</summary>
             <div class="faq-body">
-              <p>Так. Ми починаємо саме з української — бо тут таких інструментів досі не було.</p>
+              <p data-i18n="faq_a_uk">Yes. We're starting with Ukrainian — because tools like this didn't exist here yet.</p>
             </div>
           </details>
           <details class="faq-item">
-            <summary>Чим це відрізняється від звичайного опису відео?</summary>
+            <summary data-i18n="faq_q_diff">How is this different from regular video description?</summary>
             <div class="faq-body">
-              <p>Звичайний опис — це записана доріжка, однакова для всіх. OKO дивиться відео разом з тобою: описує в паузах, підлаштовує темп і відповідає на твої запитання прямо під час перегляду.</p>
+              <p data-i18n="faq_a_diff">Regular description is a recorded track, the same for everyone. OKO watches the video with you: describes in pauses, adapts pace, and answers your questions right while you watch.</p>
             </div>
           </details>
 
-          <h3 class="faq-group-title">Для платформ і закладів освіти</h3>
+          <h3 class="faq-group-title" data-i18n="faq_platforms">For platforms and educational institutions</h3>
           <details class="faq-item">
-            <summary>Як OKO вбудовується?</summary>
+            <summary data-i18n="faq_q_embed">How does OKO integrate?</summary>
             <div class="faq-body">
-              <p>Це плагін у ваш відеоплеєр. Не треба переробляти відео чи завантажувати щось наперед — OKO працює поверх бібліотеки, яка вже є.</p>
+              <p data-i18n="faq_a_embed">It's a plugin in your video player. No need to rework videos or upload anything upfront — OKO works on top of the library you already have.</p>
             </div>
           </details>
           <details class="faq-item">
-            <summary>Що з доступністю за законом?</summary>
+            <summary data-i18n="faq_q_law">What about legal accessibility requirements?</summary>
             <div class="faq-body">
-              <p>OKO закриває вимогу аудіодескрипції у WCAG 2.1 (критерій 1.2.5). Це прямо стосується ADA у США (дедлайни вже настали) та European Accessibility Act у ЄС (діє з 2025).</p>
+              <p data-i18n="faq_a_law">OKO meets the audio description requirement in WCAG 2.1 (criterion 1.2.5). That directly relates to ADA in the U.S. (deadlines already passed) and the European Accessibility Act in the EU (effective since 2025).</p>
             </div>
           </details>
           <details class="faq-item">
-            <summary>А точність? AI же помиляється.</summary>
+            <summary data-i18n="faq_q_accuracy">What about accuracy? AI makes mistakes.</summary>
             <div class="faq-body">
-              <p>Для звичайних лекцій AI справляється. Для критичного контенту — іспитів, складних формул — є режим з перевіркою людиною.</p>
+              <p data-i18n="faq_a_accuracy">For regular lectures, AI handles it well. For critical content — exams, complex formulas — there's a human-reviewed mode.</p>
             </div>
           </details>
           <details class="faq-item">
-            <summary>Що з приватністю даних?</summary>
+            <summary data-i18n="faq_q_privacy">What about data privacy?</summary>
             <div class="faq-body">
-              <p>Відео й дані студентів обробляються в межах вашої платформи. Проєктуємо під вимоги GDPR і FERPA з першого дня.</p>
+              <p data-i18n="faq_a_privacy">Video and student data are processed within your platform. We're designing for GDPR and FERPA requirements from day one.</p>
             </div>
           </details>
         </div>
@@ -370,47 +370,45 @@
 
     <!-- ===================== 6.8 Форма ===================== -->
     <section class="section dark section-form waves-bg" id="join" aria-labelledby="join-title">
-      <!-- якорі для CTA: хеш передає роль у select (#beta / #pilot) -->
       <span id="beta"></span>
       <span id="pilot"></span>
       <div class="container">
         <div class="section-head">
-          <h2 id="join-title">Приєднуйся першим</h2>
-          <p class="section-sub">Бета для студентів безкоштовна, пілоти для платформ — з осені 2026-го.</p>
+          <h2 id="join-title" data-i18n="join_title">Be among the first</h2>
+          <p class="section-sub" data-i18n="join_sub">Beta for students is free; platform pilots start fall 2026.</p>
         </div>
 
-        <!-- TODO: Formspree — замінити action="#" на https://formspree.io/f/XXXX -->
         <form class="lead-form form-card" data-lead-form action="#" method="POST">
           <div class="field">
-            <label for="lead-name">Ім'я <span aria-hidden="true">*</span></label>
+            <label for="lead-name"><span data-i18n="form_name">Name</span> <span aria-hidden="true">*</span></label>
             <input id="lead-name" name="name" type="text" autocomplete="name" required aria-describedby="err-lead-name">
             <p class="field-error" id="err-lead-name" hidden></p>
           </div>
 
           <div class="field">
-            <label for="lead-email">Email <span aria-hidden="true">*</span></label>
+            <label for="lead-email"><span data-i18n="form_email">Email</span> <span aria-hidden="true">*</span></label>
             <input id="lead-email" name="email" type="email" autocomplete="email" required aria-describedby="err-lead-email">
             <p class="field-error" id="err-lead-email" hidden></p>
           </div>
 
           <div class="field">
-            <label for="lead-role">Я —</label>
+            <label for="lead-role" data-i18n="form_role">I am a</label>
             <select id="lead-role" name="role" data-role-select>
-              <option value="student">студент</option>
-              <option value="teacher">викладач</option>
-              <option value="platform">платформа або виш</option>
-              <option value="other">інше</option>
+              <option value="student" data-i18n="form_role_student">student</option>
+              <option value="teacher" data-i18n="form_role_teacher">instructor</option>
+              <option value="platform" data-i18n="form_role_platform">platform or university</option>
+              <option value="other" data-i18n="form_role_other">other</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="lead-message">Коментар <span class="label-optional">(необов'язково)</span></label>
+            <label for="lead-message"><span data-i18n="form_message">Comment</span> <span class="label-optional" data-i18n="form_optional">(optional)</span></label>
             <textarea id="lead-message" name="message" rows="4"></textarea>
           </div>
 
-          <button class="btn btn-navy btn-submit" type="submit">Надіслати</button>
+          <button class="btn btn-navy btn-submit" type="submit" data-i18n="form_submit">Send</button>
 
-          <p class="form-note">Пишемо тільки у справі бети чи пілота. Жодних розсилок.</p>
+          <p class="form-note" data-i18n="form_note">We only write about the beta or pilot. No newsletters.</p>
           <p class="form-status" data-form-status role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -421,11 +419,10 @@
   <!-- ===================== 6.9 Футер ===================== -->
   <footer class="site-footer">
     <div class="container">
-      <p class="footer-slogan">Щоб «дивитися» перестало вимагати «бачити»</p>
+      <p class="footer-slogan" data-i18n="footer_slogan">So "watching" no longer requires "seeing"</p>
       <div class="footer-bottom">
-        <p class="footer-meta">OKO · 2026 · Створено в Україні</p>
+        <p class="footer-meta" data-i18n="footer_meta">OKO · 2026 · Made in Ukraine</p>
         <ul class="footer-contacts">
-          <!-- TODO: реальний email команди і лінк на Telegram -->
           <li><a href="mailto:hello@oko.example">hello@oko.example</a></li>
           <li><a href="#">Telegram</a></li>
         </ul>
@@ -433,6 +430,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/i18n.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
