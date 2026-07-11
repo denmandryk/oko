@@ -463,10 +463,10 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* «екран» — чорний */
 .player-screen {
-  display: grid;
-  grid-template-rows: 1fr auto auto;
-  justify-items: center;
-  row-gap: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   min-height: clamp(300px, 44vw, 400px);
   padding: 36px 24px 32px;
   background: var(--screen-black);
@@ -477,6 +477,8 @@ a:hover { text-decoration-thickness: 2px; }
   display: grid;
   place-items: center;
   width: 100%;
+  flex: 1;
+  align-self: stretch;
 }
 .screen-hint,
 .screen-captions { grid-area: 1 / 1; }
@@ -509,8 +511,13 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .cap-ask { color: var(--gold-300); } /* золото текстом на темному — 7.5:1, AAA */
 
-/* хвиля: плоска лінія, що ледь пульсує; після кліку — танцює */
-.screen-wave { align-self: end; }
+/* хвиля і кнопка — внизу екрана, підказка по центру всієї чорної зони */
+.screen-wave {
+  position: absolute;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .oko-wave {
   width: 150px;
   height: 50px;
@@ -555,9 +562,14 @@ a:hover { text-decoration-thickness: 2px; }
 }
 
 .btn-oko {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1.06rem;
   padding: 14px 34px;
 }
+.btn-oko:active { transform: translateX(-50%) translateY(1px); }
 .hero-player.is-on .btn-oko {
   background: transparent;
   border-color: rgba(232, 163, 61, .55);
@@ -618,11 +630,14 @@ a:hover { text-decoration-thickness: 2px; }
   margin: 0 auto 36px;
 }
 .hero-cta {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
 }
+.hero-cta .btn { width: 100%; }
 
 /* ---------- 7. Секції ---------- */
 
