@@ -81,6 +81,8 @@
   --gold-tint: #FBF1E1;                    /* фон чіпсів і секції цифр */
   --screen-black: #07091C;                 /* «чорний екран» плеєра */
   --error: #8C1D13;                        /* 9.1:1 на білому — AAA */
+  --success: #2E6B34;                      /* текст успіху на світлому */
+  --success-tint: #EDF7EE;                 /* фон плашки успіху */
   --focus-ring: var(--gold-600);           /* фокус на світлому — gold-600 (3.7:1 до білого) */
   --border-light: 1px solid rgba(30, 39, 97, .14);
   --border-on-dark: 1px solid rgba(202, 220, 252, .2);
@@ -1080,9 +1082,9 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .form-status.is-visible { display: block; }
 .form-status.is-success {
-  background: var(--gold-tint);
-  color: var(--navy-900);
-  border: 1px solid rgba(184, 120, 23, .3);
+  background: var(--success-tint);
+  color: var(--success);
+  border: 1px solid rgba(46, 107, 52, .35);
 }
 .form-status.is-error {
   background: #FBEAEA;
@@ -1115,22 +1117,11 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--gold-300); /* золото текстом на темному — 7.5:1, AAA */
   margin: 0 auto 72px; /* в один рядок на десктопі */
 }
-/* нижній рядок: зліва мета, справа контакти, один розмір шрифту */
+/* нижній рядок: мета по центру */
 .footer-bottom {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px 32px;
-  flex-wrap: wrap;
+  justify-content: center;
 }
-.footer-contacts {
-  display: flex;
-  gap: 24px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.footer-contacts a { color: var(--white); font-size: .95rem; }
 .footer-meta { font-size: .95rem; color: var(--ice); margin: 0; }
 
 /* ---------- 9. Адаптив ---------- */
@@ -1150,7 +1141,6 @@ a:hover { text-decoration-thickness: 2px; }
   .hero-copy { margin-bottom: 44px; }
   .player-screen { height: clamp(280px, 70vw, 360px); min-height: clamp(280px, 70vw, 360px); }
   .screen-hint { font-size: .98rem; }
-  .footer-bottom { flex-direction: column; } /* на мобільному — стек по центру */
 }
 
 /* ---------- 10. prefers-* ---------- */
