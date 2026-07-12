@@ -1141,6 +1141,14 @@ a:hover { text-decoration-thickness: 2px; }
   .hero-copy { margin-bottom: 44px; }
   .player-screen { height: clamp(280px, 70vw, 360px); min-height: clamp(280px, 70vw, 360px); }
   .screen-hint { font-size: .98rem; }
+  .hero-cta {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .btn-oko {
+    white-space: nowrap;
+    padding-inline: 44px;
+  }
 }
 
 /* ---------- 10. prefers-* ---------- */
